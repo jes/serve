@@ -175,7 +175,7 @@ void send_file(request *r);
 void add_text(char **page, size_t *pagelen, char *fmt, ...);
 void send_dir(request *r);
 int nonhidden(const struct dirent *d);
-int dirsort(const void *one, const void *two);
+int dirsort(const struct dirent **a, const struct dirent **b);
 char *file_size(const char *file);
 void send_dirlist(request *r);
 void send_errorpage(request *r);
