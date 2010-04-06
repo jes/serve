@@ -1,0 +1,34 @@
+{
+   zlib1
+   Memcheck:Cond
+   fun:deflate_slow
+   fun:deflate
+}
+
+{
+   zlib2
+   Memcheck:Value4
+   fun:deflate_slow
+   fun:deflate
+}
+
+{
+   zlib3
+   Memcheck:Cond
+   fun:deflate
+}
+
+{
+   zlib4
+   Memcheck:Value4
+   fun:deflate
+}
+
+{
+   zlib5
+   Memcheck:Value4
+   fun:compress_block
+   fun:_tr_flush_block
+   fun:deflate_slow
+   fun:deflate
+}
