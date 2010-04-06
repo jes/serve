@@ -1,0 +1,5 @@
+#!/bin/sh
+#Makes the images.h file
+
+cd ../misc/
+../src/bin2c folder.png image.png text.png binary.png video.png audio.png

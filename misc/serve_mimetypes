@@ -1,0 +1,72 @@
+#Mimetypes file for serve
+#Make sure this file is either at /etc/serve_mimetypes or .mimetypes in the
+# same directory as where serve runs (the document root)
+#Put file extensions for index pages at the top lest index.jpg be served instead
+# of index.html!
+#Note that entries nearer the start of the file will be stored in memory first,
+# and so the first entries will be accessed marginally quicker than the rest
+#Files not recognised from the mimetype files are handled by libmagic if you
+# compiled with "-lmagic -DLIBMAGIC"
+#You will need to reload serve after editing this file.
+
+#Index pages
+/usr/bin/php-cgi php
+/                cgi
+text/html        html
+text/html        htm
+
+#Text
+text/css         css
+text/plain       txt
+text/plain       c
+text/plain       h
+text/plain       cpp
+text/plain       cc
+text/plain       java
+text/plain       sh
+text/plain       pl
+text/plain       py
+text/xml         xml
+
+#Images
+image/png        png
+image/jpeg       jpg
+image/jpeg       jpeg
+image/jpeg       jpe
+image/x-xcf      xcf
+image/tga        tga
+image/x-windows-bmp     bmp
+image/x-portable-bitmap pbm
+image/x-portable-pixmap ppm
+image/x-rgb      rgb
+image/x-xbm      xbm
+image/gif        gif
+image/svg+xml    svg
+
+#Compression/archiving formats
+application/x-gzip     gz
+application/x-gzip     gzip
+application/x-bzip     bz
+application/x-bzip2    bz2
+application/x-cpio     cpio
+application/x-lzh      lzh
+application/x-shar     shar
+application/x-tar      tar
+application/x-zip      zip
+
+#Audio
+audio/x-midi     mid
+audio/x-midi     midi
+audio/x-mpeg     mp2
+audio/x-mpeg     mp3
+
+#Video
+video/x-mng      mng
+video/x-msvideo  avi
+video/x-mpeg     mpg
+video/x-mpeg     mpeg
+
+#Other
+application/x-shockwave-flash swf
+application/x-java-class      classa
+application/pdf  pdf

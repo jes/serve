@@ -1,0 +1,3 @@
+/* After modifying the images, produce images.h with the make_images script
+   and then re-compile serve */
+

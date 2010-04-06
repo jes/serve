@@ -1,0 +1,120 @@
+Changelog for serve
+-------------------
+
+serve/0.7:
+ - Now goes in to the correct directory to run CGI scripts
+ - Made add_env() slightly faster
+ - Tested NPH scripts for the first time, a few bugs fixed
+ - Made a name-value structure for headers, instead of using the stupid
+   HEADER() and VALUE() macros
+ - Added serve_assert() macro; it's like assert.h's assert(), but it writes
+   proper log entries
+ - Directory listings with GET query strings now work
+ - Now actually does ignore the Last-Modified header for CGI scripts, like it
+   was supposed to in 0.6
+ - Now includes <netinet/in.h>
+ - Only defines a MIN macro if one isn't defined already
+ - Only links with -lcrypt on Linux
+ - No longer includes <crypt.h>
+ - Now includes <sys/param.h>
+ - Now includes <limits.h>
+ - Now defines _NETBSD_SOURCE to gain access to the dirent d_type macros in
+   NetBSD
+ - Added a fairly important comment about strdup2() semantics
+ - Switched to Makefile-based build
+ - No longer bothers gzipping CGI script output if it is less than
+   GZIP_BUF_SIZE (i.e. less than 16K)
+ - Simplified generation of directory listing paths
+ - No longer shows ".." in directory listing of /
+ - No longer causes a redirect when links to directories in directory listings
+   are followed
+ - Introduced "-l" option to specify address to listen on
+ - Now uses mlock() to prevent cleartext passwords from being swapped to disk
+   (this is stupid for a password that is sent in cleartext over the network!)
+ - Now returns "application/octet-stream" for unknown mimetypes when not using 
+   libmagic instead of the typo "application/octet-strem"
+
+serve/0.6: 04-08-2009
+ - Made the -h description of -s slightly less confusing
+ - Can now use sendfile() if USE_SENDFILE is defined at compile-time
+ - Ignores the Last-Modified header if there isn't a suitable value. In
+   practice this means that CGI scripts no longer have Last-Modified set to
+   the current date
+ - Wrote bin2c program so that images can be included
+ - Now shows the public domain Mosaic/NCSAd/Apache icons in directory listings
+ - Removed the request redundancy between mode and meth
+ - Lots of additions to the mimetypes file
+ - Now returns 400 Bad Request if a POST request is received with no content
+   length header
+ - Removed disk-backed POST data storage; the kernel can deal with it
+ - CGI code simplified a lot
+ - No longer segfaults if the client disconnects between specifying the request
+   and sending the first header
+ - Child processes that received a kill signal no longer attempt to remove the
+   pidfile; not that the pidfile ever actually got removed...
+ - Now closes the connection after the 400 page if no HTTP version is specified
+ - Several bugfixes to do with CGI scripts giving invalid local-server Location 
+   headers
+ - Noticed that Apache doesn't try to handle local redirects itself, serve
+   doesn't either any more
+ - Now sends 415 Unsupported Media Type if an HTTP POST contains a content
+   encoding other than identity
+ - Some 500 pages now give a file name, line number, and reason in the error log
+ - Now supports gzip content-encoding of CGI scripts and files (but not builtin
+   images or error pages) if USE_GZIP is defined at compile-time
+ - Now comes with a zlib.supp file for suppressing valgrind messages about
+   zlib
+ - No longer sends Content-Length responses to HEAD requests if no content
+   length is known (e.g. CGI scripts that produce no output on HEAD requests)
+ - Fixed concurrency issues in log_text()
+ - Removed use of the reserved _t suffix on typedef's
+ - Made more code immune to EINTR
+ - Now logs all responses with status code < 400 to the log file instead of the
+   error file (previously only 200 response codes went to the log file)
+ - Now logs the client's user agent and the response content length
+ - Now checks that the POST content-length is > 0, instead of != 0
+
+serve/0.5: 17-07-2009
+ - Fixed bug whereby output redirection duplicated log entries; identical bug
+   (in different place) fixed in 0.2; fully fixed (hopefully) this time
+ - Fixed bug whereby children are not killed when the parent is
+ - No longer attempts to remove the pidfile if it was unable to be opened for
+   writing
+ - No longer keeps a pre-existing pidfile open after reading from it
+ - No longer continues executing if the pidfile exists and a process with the
+   given pid is executing
+ - Now returns 400 Bad Request if the requested file does not begin with a /
+
+serve/0.4: 18-06-2009
+ - Now accepts any HTTP version with major number 1, rather than just 1.0 and
+   1.1; in reality this will make no difference
+ - Added more possibilities for sending 500 pages if something goes wrong
+ - Made emergency_500() print a message in the error log
+ - Made local Location headers from CGI scripts work properly (e.g. Location: / 
+   should give document root, not filesystem root!)
+ - Made authentication necessary (when possible) even when not getting a 200
+   response
+ - Now sends 400 Bad Request if the client sent unintelligible authentication   
+   data, rather than 401 Anauthorized
+ - Replaced magic length numbers with the decimal_length() macro
+ - Made nextline() and log_text() slightly more efficient
+ - Added more informative error page texts for the more common error codes
+ - Now ignores any whitespace that appears after the "HTTP/1.x" text
+ - States "Main" or "Handler" process in the log when a kill signal is received
+
+serve/0.3: 09-06-2009
+ - Started distributing a minimal mimetypes file
+ - Stopped using sizeof(int) to get string length of a digit
+ - Now sends 500 Internal Server Error if something goes wrong
+ - Added emergency_500() to send an error page if something goes wrong before
+   the request structure is filled in enough to be able to send a proper error
+   page
+ - Made send_headers() marginally more forgiving of partially completed
+   request structures
+
+serve/0.2: 25-05-2009
+ - Fixed bug whereby output redirection duplicated log entries
+ - Now deletes pidfile on exit
+
+serve/0.1: 12-04-2009
+ - Initial version
