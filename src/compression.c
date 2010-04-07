@@ -267,10 +267,10 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   }
 
 #ifdef USE_GZIP
-    if(gzstrm) gzclose(gzstrm);
-    else
+  if(gzstrm) gzclose(gzstrm);
+  else
 #endif
-      close(fildes);
+    close(fildes);
 
   unlink(file);
 }

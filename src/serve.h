@@ -89,34 +89,34 @@ unsigned char is_handler;
 typedef struct header_s header;
 
 typedef struct request_s {
-	int fd;
+  int fd;
   char *user_agent;
-	char *client;
-	char *req;
-	int meth;
-	char *reqfile;
-	char *file;
-	char *http;
-	char *content_type;
-	unsigned long long content_length;
-	char *last_modified;
-	time_t last_modified_t;
-	char *date;
-	int status;
-	int is_dir;
-	header *header_list;
-	int num_headers;
-	char *post_file;
-	char *post_data;
-	size_t post_length;
-	char *auth_realm;
-	char *auth_user;
-	char *doc_root;
-	int keep_alive;
-	int close_conn;
-	char *location;
-	time_t if_modified_since;
-	char *host;
+  char *client;
+  char *req;
+  int meth;
+  char *reqfile;
+  char *file;
+  char *http;
+  char *content_type;
+  unsigned long long content_length;
+  char *last_modified;
+  time_t last_modified_t;
+  char *date;
+  int status;
+  int is_dir;
+  header *header_list;
+  int num_headers;
+  char *post_file;
+  char *post_data;
+  size_t post_length;
+  char *auth_realm;
+  char *auth_user;
+  char *doc_root;
+  int keep_alive;
+  int close_conn;
+  char *location;
+  time_t if_modified_since;
+  char *host;
   unsigned char *img_data;
   int encoding;
 } request;
@@ -198,14 +198,14 @@ char *content_type(const char *file);
 char *magic_content_type(const char *file);
 
 /* log.c */
-#define serve_assert(x)                                             \
-  do {                                                              \
-    if(!(x)) {                                                      \
-      log_text(err, "Assertion '%s' failed, aborting %s process!",  \
-               #x, is_handler ? "handler" : "main");                \
-      raise(SIGABRT);                                               \
-    }                                                               \
-  } while(0)                                                        \
+#define serve_assert(x)                                                 \
+  do {                                                                  \
+    if(!(x)) {                                                          \
+      log_text(err, "Assertion '%s' failed, aborting %s process!",      \
+               #x, is_handler ? "handler" : "main");                    \
+      raise(SIGABRT);                                                   \
+    }                                                                   \
+  } while(0)                                                            \
 
 extern FILE *out;
 extern FILE *err;
@@ -224,7 +224,7 @@ void exec_script(int *fildes, char * const *env, request *r);
 void send_new_headers(header *header_list, int num_headers, char *sent,
                       int fd);
 char *fill_headers(request *r, header *header_list, int num_headers,
-									char *done);
+                   char *done);
 
 /* request.c */
 void free_request(request *r);
