@@ -1,4 +1,4 @@
-Read the INSTALL file for installation instructions.
+Read the INSTALL file for generic autotools installation instructions.
 
 Useful options to "configure":
  --with-libmagic   Attempt to use libmagic to automatically identify mimetypes.
@@ -55,7 +55,7 @@ The script that kills serve at shutdown should do something like:
 
 Even if you compiled serve with libmagic enabled, you will still need a
 mimetypes file if you want serve to automatically find index pages. When looking
-for an index page, serve goes down the list of file extensions in
+for an index page, serve goes down the list of file extensions specified in
 $DOC_ROOT/.mimetypes, and then $SYSCONFDIR/serve_mimetypes (in that order),
 trying "index.EXT" where EXT is an extension loaded from those files. The first
 existing file that serve can open for reading is used.
@@ -72,8 +72,8 @@ Serve will use mimetypes in this file in preference to those in the other files.
 If you specify several -m options, the later ones are given higher preference
 than the earlier ones.
 
-Note that when you add a mimetype to a mimetypes file, you will need to restart
-serve if you want it to reload the file.
+Note that when you change a mimetypes file, you will need to restart serve if
+you want it to reload the file.
 
 4. Contact
 ----------
