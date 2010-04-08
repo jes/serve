@@ -167,9 +167,9 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 
   /* if all data fits in the first chunk, send it un-compressed;
      also handles the case where n is 0 (i.e. no data) */
-  if(n < GZIP_BUF_SIZE) {
+  if(len_data < GZIP_BUF_SIZE) {
     r->encoding = IDENTITY;
-    r->content_length = n;
+    r->content_length = len_data;
     fildes = fd;
 
     goto send_data;
@@ -204,7 +204,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   gzstrm = gzdopen(fildes, "wb");
 
   /* write the chunk we've already read to this file */
-  gzwrite(gzstrm, buf, n);
+  gzwrite(gzstrm, buf, len_data);
 
   /* now send the entire input stream through the gz stream */
   do {
