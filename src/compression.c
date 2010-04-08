@@ -105,6 +105,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   char file[] = "/tmp/gzip.XXXXXX";
   int made_tmp = 0;
   int n;
+  int len_data = 0;
 #ifdef USE_GZIP
   gzFile gzstrm = NULL;
 #endif
@@ -148,10 +149,21 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   }
 
   /* don't know the length yet, read the first chunk */
-  do {
-    n = read(fd, buf, GZIP_BUF_SIZE);
-  } while(n == -1 && errno == EINTR);
+  while(len_data < GZIP_BUF_SIZE) {
+    /* read some */
+    do {
+      n = read(fd, buf + len_data, GZIP_BUF_SIZE - len_data);
+    } while(n == -1 && errno == EINTR);
+
+    /* eof or error */
+    if(n <= 0) break;
+
+    /* add this many to the length */
+    len_data += n;
+  }
   read_data = 1;
+
+  log_text(out, "n = %d\n", n);
 
   /* if all data fits in the first chunk, send it un-compressed;
      also handles the case where n is 0 (i.e. no data) */
@@ -248,10 +260,9 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 
   send_str(r->fd, "\r\n");
 
-  /* if we've already read the data and reading it again would discard it */
+  /* if we've already read some data, write that first */
   if(read_data && fildes == fd) {
-    send(r->fd, buf, r->content_length, 0);
-    goto cleanup;
+    send(r->fd, buf, n, 0);
   }
 
   /* only send data if it wasn't a HEAD request */
