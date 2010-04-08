@@ -57,7 +57,11 @@
 #endif
 
 /* HTTP Server header */
-#define SERVER "serve/0.7"
+#ifdef VERSION
+#define SERVER "serve/" VERSION
+#else
+#define SERVER "serve"
+#endif
 
 /* the built-in path images are in; feel free to change this */
 #define IMAGE_PATH "serve_images/"

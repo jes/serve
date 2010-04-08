@@ -1,7 +1,7 @@
 AC_INIT(configure.ac)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(serve, 0.7)
+AM_INIT_AUTOMAKE(serve, 0.7.1)
 
 AC_ARG_WITH(libmagic,
 [AS_HELP_STRING([--with-libmagic],[enable libmagic support])],

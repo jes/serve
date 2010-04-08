@@ -100,8 +100,10 @@ int get_encoding(const char *accept_encoding) {
 void send_gzipped(request *r, int fd, int mmapable, long long len,
                   header *header_list, int num_headers, char *sent) {
   char buf[GZIP_BUF_SIZE];
+  int read_data = 0;
   int fildes = -1;
   char file[] = "/tmp/gzip.XXXXXX";
+  int made_tmp = 0;
   int n;
 #ifdef USE_GZIP
   gzFile gzstrm = NULL;
@@ -124,6 +126,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   /* we don't know the length and we're not allowed to gzip */
   if(len < 0 && r->encoding == IDENTITY) {
     fildes = mkstemp(file);
+    made_tmp = 1;
 
     /* couldn't make temporary file, send error page */
     if(fildes == -1) {
@@ -148,6 +151,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   do {
     n = read(fd, buf, GZIP_BUF_SIZE);
   } while(n == -1 && errno == EINTR);
+  read_data = 1;
 
   /* if all data fits in the first chunk, send it un-compressed;
      also handles the case where n is 0 (i.e. no data) */
@@ -172,6 +176,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 #ifdef USE_GZIP
   /* still here? we don't know the length and can gzip; get gzipping */
   fildes = mkstemp(file);
+  made_tmp = 1;
 
   /* couldn't make temporary file, send error page */
   if(fildes == -1) {
@@ -223,7 +228,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 #endif
       close(fildes);
 
-    unlink(file);
+    if(made_tmp) unlink(file);
     return;
   }
   r->content_length = len;
@@ -243,8 +248,8 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 
   send_str(r->fd, "\r\n");
 
-  /* if we've already read the data and it is less than one chunk */
-  if(fildes == fd) {
+  /* if we've already read the data and reading it again would discard it */
+  if(read_data && fildes == fd) {
     send(r->fd, buf, r->content_length, 0);
     goto cleanup;
   }
@@ -288,5 +293,5 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 #endif
     close(fildes);
 
-  unlink(file);
+  if(made_tmp) unlink(file);
 }

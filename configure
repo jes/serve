@@ -2760,7 +2760,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=serve
- VERSION=0.7
+ VERSION=0.7.1
 
 
 cat >>confdefs.h <<_ACEOF

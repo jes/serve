@@ -1,6 +1,10 @@
 Changelog for serve
 -------------------
 
+serve/0.7.1:
+ - Fixes to gzip to make it work
+ - Fixes to build/install environment to make it work for other people
+
 serve/0.7:
  - Now goes in to the correct directory to run CGI scripts
  - Made add_env() slightly faster
