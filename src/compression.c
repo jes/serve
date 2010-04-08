@@ -170,7 +170,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   }
 
 #ifdef USE_GZIP
-  /* still here? get gzipping */
+  /* still here? we don't know the length and can gzip; get gzipping */
   fildes = mkstemp(file);
 
   /* couldn't make temporary file, send error page */
@@ -214,7 +214,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
     else
       log_text(err, "Couldn't seek to end of file descriptor %d (len = %lld).",
                fd, len);
-    *((char*)0) = 0;
+
     send_errorpage(r);
     
 #ifdef USE_GZIP
@@ -243,28 +243,44 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 
   send_str(r->fd, "\r\n");
 
+  /* if we've already read the data and it is less than one chunk */
+  if(fildes == fd) {
+    send(r->fd, buf, r->content_length, 0);
+    goto cleanup;
+  }
+
   /* only send data if it wasn't a HEAD request */
   if(r->meth != HEAD) {
 #ifdef USE_SENDFILE
-    /* If we're allowed sendfile and it's possible, use it */
-    if(mmapable) {
-      if(sendfile(fildes, r->fd, NULL, r->content_length) == -1) {
-        do {
-          while((len = read(fildes, buf, GZIP_BUF_SIZE)) > 0)
-            send(r->fd, buf, len, 0);
-        } while(len == -1 && errno == EINTR);
-      }
-    } else {
+    /* If we're allowed sendfile and it's possible, try */
+    if(!mmapable ||
+       sendfile(fildes, r->fd, NULL, r->content_length) == -1) {
 #endif
       /* Either not allowed sendfile or it's not possible */
       do {
-        while((len = read(fildes, buf, GZIP_BUF_SIZE)) > 0)
-          send(r->fd, buf, len, 0);
+        while((len = read(fildes, buf, GZIP_BUF_SIZE)) > 0) {
+          log_text(out, "Read %d bytes.", len);
+          if(send(r->fd, buf, len, 0) == -1) {
+            /* some error sending */
+            log_text(err, "send: %s", strerror(errno));
+            r->close_conn = 1;
+            goto cleanup;
+          }
+        }
       } while(len == -1 && errno == EINTR);
+
+      /* some other error */
+      if(len == -1) {
+        log_text(err, "Failed to read data from temporary file: %s",
+                 strerror(errno));
+        r->close_conn = 1;
+      }
 #ifdef USE_SENDFILE
     }
 #endif
   }
+
+ cleanup:
 
 #ifdef USE_GZIP
   if(gzstrm) gzclose(gzstrm);
