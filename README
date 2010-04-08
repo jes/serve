@@ -1,0 +1,81 @@
+Read the INSTALL file for installation instructions.
+
+Useful options to "configure":
+ --with-libmagic   Attempt to use libmagic to automatically identify mimetypes.
+ --with-sendfile   Use the sendfile function instead of reading the file in to
+                   memory in chunks and sending it to the client.
+ --with-zlib       Enable gzip compression when clients support it.
+
+0. Contents
+-----------
+1. Testing
+2. Running at boot
+3. Mimetype configuration
+4. Contact
+
+1. Testing
+----------
+
+After you've compiled and installed serve, you are ready to run it. To test it
+out, try:
+
+$ cd ~/public_html
+$ serve
+
+and go to http://localhost:8080/ in your browser to check that it's working.
+
+2. Running at boot
+------------------
+
+Once you're satisfied that serve itself is working, and if you want it to run
+automatically at boot, you will need to write an init script that does something
+like this:
+
+ cd $DOC_ROOT
+ serve -d -p$PORT -u$USER -g$GROUP -P$PIDFILE -s$HOST >>$LOGFILE 2>>$ERRFILE
+
+The options are as follows:
+ -d  Daemonize
+ $PORT    Set the TCP port to listen on (e.g. 80)
+ $USER    Set the username to setuid to (e.g www-data)
+ $GROUP   Set the group name to setgid to (e.g. www-data)
+ $PIDFILE Set the path to write a pidfile in (e.g. /var/run/serve.pid)
+ $HOST    Set the hostname of the server (sometimes useful for HTTP/1.0 clients)
+ $DOC_ROOT Set the location of the root directory (e.g. /var/www)
+ $LOGFILE Redirects stdout to the log file (e.g. /var/log/serve.out)
+ $ERRFILE Redirects stderr to the error file (e.g. /var/log/serve.err)
+
+See the output of "serve -h" for more options.
+
+The script that kills serve at shutdown should do something like:
+ kill `cat $PIDFILE`
+
+3. Mimetype configuration
+-------------------------
+
+Even if you compiled serve with libmagic enabled, you will still need a
+mimetypes file if you want serve to automatically find index pages. When looking
+for an index page, serve goes down the list of file extensions in
+$DOC_ROOT/.mimetypes, and then $SYSCONFDIR/serve_mimetypes (in that order),
+trying "index.EXT" where EXT is an extension loaded from those files. The first
+existing file that serve can open for reading is used.
+
+The default value of $SYSCONFDIR is "/usr/local/etc", and $DOC_ROOT is whatever
+directory serve was started from.
+
+If you want to specify another mimetypes file to serve, in addition to the two
+mentioned above, you can give serve the -m option, like so:
+
+$ serve -m ~/my_mimetypes
+
+Serve will use mimetypes in this file in preference to those in the other files.
+If you specify several -m options, the later ones are given higher preference
+than the earlier ones.
+
+Note that when you add a mimetype to a mimetypes file, you will need to restart
+serve if you want it to reload the file.
+
+4. Contact
+----------
+
+See the AUTHORS file for information on how to contact me.

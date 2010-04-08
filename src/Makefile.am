@@ -42,4 +42,6 @@ INCLUDES= $(all_includes)
 # the library search path.
 serve_LDFLAGS = $(all_libraries) 
 
+AM_CFLAGS = -DSYSCONFDIR=\"$(sysconfdir)\"
+
 EXTRA_DIST = zlib.supp

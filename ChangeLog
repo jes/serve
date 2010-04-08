@@ -31,8 +31,12 @@ serve/0.7:
  - Introduced "-l" option to specify address to listen on
  - Now uses mlock() to prevent cleartext passwords from being swapped to disk
    (this is stupid for a password that is sent in cleartext over the network!)
- - Now returns "application/octet-stream" for unknown mimetypes when not using 
+ - Now returns "application/octet-stream" for unknown mimetypes when not using
    libmagic instead of the typo "application/octet-strem"
+ - Now in public git at http://aw.eso.me.uk/git/ and
+   git://aw.eso.me.uk/serve.git
+ - Now has a README file
+ - Now uses autotools for building, courtesy of Joe Hermaszewski
 
 serve/0.6: 04-08-2009
  - Made the -h description of -s slightly less confusing
@@ -53,7 +57,7 @@ serve/0.6: 04-08-2009
  - Child processes that received a kill signal no longer attempt to remove the
    pidfile; not that the pidfile ever actually got removed...
  - Now closes the connection after the 400 page if no HTTP version is specified
- - Several bugfixes to do with CGI scripts giving invalid local-server Location 
+ - Several bugfixes to do with CGI scripts giving invalid local-server Location
    headers
  - Noticed that Apache doesn't try to handle local redirects itself, serve
    doesn't either any more
@@ -90,11 +94,11 @@ serve/0.4: 18-06-2009
    1.1; in reality this will make no difference
  - Added more possibilities for sending 500 pages if something goes wrong
  - Made emergency_500() print a message in the error log
- - Made local Location headers from CGI scripts work properly (e.g. Location: / 
+ - Made local Location headers from CGI scripts work properly (e.g. Location: /
    should give document root, not filesystem root!)
  - Made authentication necessary (when possible) even when not getting a 200
    response
- - Now sends 400 Bad Request if the client sent unintelligible authentication   
+ - Now sends 400 Bad Request if the client sent unintelligible authentication
    data, rather than 401 Anauthorized
  - Replaced magic length numbers with the decimal_length() macro
  - Made nextline() and log_text() slightly more efficient

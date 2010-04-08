@@ -64,7 +64,7 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* Define if you have zlib */
+/* Define if you want to use gzip compression */
 #undef USE_GZIP
 
 /* Define if you want serve to use libmagic for auto-detecting MIME types */

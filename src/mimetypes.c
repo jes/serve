@@ -13,7 +13,7 @@ int longest_ext;
 /* Loads mime types from all of the files
    Later-loaded mimetypes overwrite earlier-loaded ones */
 void load_mimetypes(void) {
-  load_mimetypes_from("/etc/serve_mimetypes");
+  load_mimetypes_from(SYSCONFDIR "/serve_mimetypes");
   load_mimetypes_from(".mimetypes");
 }
 

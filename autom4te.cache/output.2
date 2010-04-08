@@ -4239,6 +4239,7 @@ fi
 
 $as_echo "@%:@define USE_LIBMAGIC 1" >>confdefs.h
 
+LDFLAGS += -lmagic
 { $as_echo "$as_me:${as_lineno-$LINENO}: Using libmagic" >&5
 $as_echo "$as_me: Using libmagic" >&6;}
 else
@@ -4329,6 +4330,7 @@ fi
 
 $as_echo "@%:@define USE_GZIP 1" >>confdefs.h
 
+LDFLAGS += -lz
 { $as_echo "$as_me:${as_lineno-$LINENO}: Using zlib" >&5
 $as_echo "$as_me: Using zlib" >&6;}
 else

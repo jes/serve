@@ -703,7 +703,7 @@ PACKAGE_STRING=
 PACKAGE_BUGREPORT=
 PACKAGE_URL=
 
-ac_unique_file="configure.in"
+ac_unique_file="configure.ac"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -1501,8 +1501,8 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-libmagic         enable libmagic support
-  --with-sendfile         use sendfile() instead of read()ing and write()ing
-  --with-zlib             use zlib for gzip compression where appropriate
+  --with-sendfile         use sendfile instead of read and write
+  --with-zlib             use zlib for gzip compression where possible
   --with-pic              try to use only PIC/non-PIC objects @<:@default=use
                           both@:>@
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
@@ -4239,7 +4239,6 @@ fi
 
 $as_echo "@%:@define USE_LIBMAGIC 1" >>confdefs.h
 
-LDFLAGS += -lmagic
 { $as_echo "$as_me:${as_lineno-$LINENO}: Using libmagic" >&5
 $as_echo "$as_me: Using libmagic" >&6;}
 else
@@ -4251,11 +4250,19 @@ fi
 
 @%:@ Check whether --with-sendfile was given.
 if test "${with_sendfile+set}" = set; then :
-  withval=$with_sendfile; { $as_echo "$as_me:${as_lineno-$LINENO}: Using sendfile" >&5
-$as_echo "$as_me: Using sendfile" >&6;}
+  withval=$with_sendfile; ac_fn_c_check_header_mongrel "$LINENO" "sys/sendfile.h" "ac_cv_header_sys_sendfile_h" "$ac_includes_default"
+if test "x$ac_cv_header_sys_sendfile_h" = x""yes; then :
+  
+else
+  as_fn_error "Could not find sys/sendfile.h" "$LINENO" 5
+fi
+
+
 
 $as_echo "@%:@define USE_SENDFILE 1" >>confdefs.h
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: Using sendfile" >&5
+$as_echo "$as_me: Using sendfile" >&6;}
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: Not using sendfile" >&5
 $as_echo "$as_me: Not using sendfile" >&6;}
@@ -4322,7 +4329,6 @@ fi
 
 $as_echo "@%:@define USE_GZIP 1" >>confdefs.h
 
-LDFLAGS += -lz
 { $as_echo "$as_me:${as_lineno-$LINENO}: Using zlib" >&5
 $as_echo "$as_me: Using zlib" >&6;}
 else

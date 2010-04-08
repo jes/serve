@@ -34,6 +34,10 @@
 #include <pwd.h>
 #include <grp.h>
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "md5.h"
 
 #ifdef USE_LIBMAGIC
@@ -46,6 +50,10 @@
 
 #ifdef USE_GZIP
 #include <zlib.h>
+#endif
+
+#ifndef SYSCONFDIR
+#define SYSCONFDIR "/etc"
 #endif
 
 /* HTTP Server header */
