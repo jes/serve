@@ -262,7 +262,7 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
 
   /* if we've already read some data, write that first */
   if(read_data && fildes == fd) {
-    send(r->fd, buf, n, 0);
+    send(r->fd, buf, len_data, 0);
   }
 
   /* only send data if it wasn't a HEAD request */
