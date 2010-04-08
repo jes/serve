@@ -24,13 +24,13 @@ AC_MSG_NOTICE([Using sendfile])],
 [AC_MSG_NOTICE([Not using sendfile])])
 
 AC_ARG_WITH(zlib,
-[AS_HELP_STRING([--with-zlib],[use zlib for gzip compression where possible])],
+[AS_HELP_STRING([--with-zlib],[use zlib for gzip compression where possible; CURRENTLY BROKEN!])],
 [AC_CHECK_HEADER(zlib.h,
 [AC_CHECK_LIB(z,zlibVersion,,[AC_MSG_ERROR([Could not find zlib])],)],
 [AC_MSG_ERROR([Could not find zlib.h])])
 AC_DEFINE(USE_GZIP,[1],
 [Define if you want to use gzip compression])
-AC_MSG_NOTICE([Using zlib])],
+AC_MSG_NOTICE([Using zlib - *** WARNING: THIS IS BROKEN ***])],
 [AC_MSG_NOTICE([Not using zlib])])
 
 AC_LANG_C
