@@ -5,3 +5,5 @@ EXTRA_DIST = audio.png \
 	text.png \
 	video.png \
 	serve_mimetypes
+
+sysconf_DATA = serve_mimetypes
