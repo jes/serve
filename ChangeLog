@@ -1,11 +1,14 @@
 Changelog for serve
 -------------------
 
-serve/0.7.1:
+serve/0.7.2: 08-04-2010
+ - Gzip compression now works entirely hopefully maybe
+
+serve/0.7.1: 08-04-2010
  - Fixes to gzip to make it work
  - Fixes to build/install environment to make it work for other people
 
-serve/0.7:
+serve/0.7: 08-04-2010
  - Now goes in to the correct directory to run CGI scripts
  - Made add_env() slightly faster
  - Tested NPH scripts for the first time, a few bugs fixed
