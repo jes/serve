@@ -21,6 +21,7 @@ text/plain       txt
 text/plain       c
 text/plain       h
 text/plain       cpp
+text/plain       hpp
 text/plain       cc
 text/plain       java
 text/plain       sh
@@ -68,5 +69,5 @@ video/x-mpeg     mpeg
 
 #Other
 application/x-shockwave-flash swf
-application/x-java-class      classa
+application/x-java-class      class
 application/pdf  pdf

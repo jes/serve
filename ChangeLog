@@ -1,6 +1,9 @@
 Changelog for serve
 -------------------
 
+serve/0.8:
+ - Fixes to serve_mimetypes file
+
 serve/0.7.2: 08-04-2010
  - Gzip compression now works entirely hopefully maybe
 
