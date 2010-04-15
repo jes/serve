@@ -71,7 +71,7 @@ void send_dir(request *r) {
 
 /* Selects all non-dotfile entries */
 int nonhidden(const struct dirent *d) {
-  if(strcmp(d->d_name, ".") == 0) return 0;
+  if(*(d->d_name) == '.' && strcmp(d->d_name, "..") != 0) return 0;
 
   return 1;
 }
