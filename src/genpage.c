@@ -182,6 +182,9 @@ void send_dirlist(request *r) {
     free(file[i]);
   }
 
+  /* terminate the page */
+  add_text(&page, &len, "</table></body></html>\n");
+
   free(fname);
 
   /* send the page */
