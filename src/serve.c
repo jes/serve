@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
 
     if(fd == -1) {
       if(errno != EINTR)
-        log_text(err,	"accept returned -1 and it wasn't EINTR.");
+        log_text(err, "accept returned -1 and it wasn't EINTR.");
       continue;
     }
 

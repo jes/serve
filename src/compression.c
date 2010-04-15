@@ -163,8 +163,6 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
   }
   read_data = 1;
 
-  log_text(out, "n = %d\n", n);
-
   /* if all data fits in the first chunk, send it un-compressed;
      also handles the case where n is 0 (i.e. no data) */
   if(len_data < GZIP_BUF_SIZE) {
@@ -275,7 +273,6 @@ void send_gzipped(request *r, int fd, int mmapable, long long len,
       /* Either not allowed sendfile or it's not possible */
       do {
         while((len = read(fildes, buf, GZIP_BUF_SIZE)) > 0) {
-          log_text(out, "Read %d bytes.", len);
           if(send(r->fd, buf, len, 0) == -1) {
             /* some error sending */
             log_text(err, "send: %s", strerror(errno));
