@@ -1,12 +1,12 @@
 #Mimetypes file for serve
-#Make sure this file is either at /etc/serve_mimetypes or .mimetypes in the
-# same directory as where serve runs (the document root)
+#Make sure this file is either at $SYSCONFDIR/serve_mimetypes or .mimetypes in
+# the same directory as where serve runs (the document root)
 #Put file extensions for index pages at the top lest index.jpg be served instead
 # of index.html!
 #Note that entries nearer the start of the file will be stored in memory first,
 # and so the first entries will be accessed marginally quicker than the rest
 #Files not recognised from the mimetype files are handled by libmagic if you
-# compiled with "-lmagic -DLIBMAGIC"
+# ran configure with --with-libmagic
 #You will need to reload serve after editing this file.
 
 #Index pages
@@ -36,7 +36,7 @@ image/jpeg       jpeg
 image/jpeg       jpe
 image/x-xcf      xcf
 image/tga        tga
-image/x-windows-bmp     bmp
+image/bmp        bmp
 image/x-portable-bitmap pbm
 image/x-portable-pixmap ppm
 image/x-rgb      rgb
