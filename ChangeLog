@@ -1,8 +1,9 @@
 Changelog for serve
 -------------------
 
-serve/0.8:
+serve/0.7.3:
  - Fixes to serve_mimetypes file
+ - Directory listing now hides dotfiles, and also closes all the HTML tags
 
 serve/0.7.2: 08-04-2010
  - Gzip compression now works entirely hopefully maybe
