@@ -208,10 +208,20 @@ void run_cgi(request *r) {
 
     /* fill_headers returns the content of the Location header */
     if((ptr = fill_headers(r, header_list, num_headers, sent))) {
-      /* Location header was sent, send a redirect to the client */
-      r->status = 302;
-      r->location = ptr;
-      send_errorpage(r);
+      /* Location header was sent, redirect */
+      if(*ptr == '/') {/* local redirect, handle it ourselves */
+	free(r->file);
+	free(r->reqfile);
+	r->status = 200;
+	r->reqfile = ptr;
+	r->file = filename(ptr);
+	file_stuff(r);
+	send_file(r);
+      } else {/* not a local redirect, send it to the client */
+	r->status = 302;
+	r->location = ptr;
+	send_errorpage(r);
+      }
     } else {/* no location header, send script output */
       r->content_length = 0;
 

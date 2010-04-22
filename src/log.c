@@ -83,6 +83,7 @@ void log_text(FILE *file, const char *fmt, ...) {
   va_end(args);
 
   fprintf(file, "%s %s\n", date, buf);
+  fflush(file);
   
   free(buf);
 }
