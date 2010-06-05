@@ -35,7 +35,7 @@ like this:
  serve -d -p$PORT -u$USER -g$GROUP -P$PIDFILE -s$HOST >>$LOGFILE 2>>$ERRFILE
 
 The options are as follows:
- -d  Daemonize
+ -d       Daemonize
  $PORT    Set the TCP port to listen on (e.g. 80)
  $USER    Set the username to setuid to (e.g www-data)
  $GROUP   Set the group name to setgid to (e.g. www-data)
