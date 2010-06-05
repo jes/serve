@@ -1,19 +1,35 @@
-Read the INSTALL file for generic autotools installation instructions.
-
-Useful options to "configure":
- --with-libmagic   Attempt to use libmagic to automatically identify mimetypes.
- --with-sendfile   Use the sendfile function instead of reading the file in to
-                   memory in chunks and sending it to the client.
- --with-zlib       Enable gzip compression when clients support it.
-
 0. Contents
 -----------
-1. Testing
-2. Running at boot
-3. Mimetype configuration
-4. Contact
+1. Compiling
+2. Testing
+3. Running at boot
+4. Mimetype configuration
+5. Contact
 
-1. Testing
+1. Compiling
+------------
+
+Open the file "Makefile" in your favourite text editor and configure the
+following options to your tastes.
+
+#Enable this to use libmagic for automatic mimetype detection
+LIBMAGIC=no
+#Enable this to use zlib for gzip compression
+ZLIB=no
+#Enable this to use the sendfile() function instead of read()/write()
+SENDFILE=no
+#Set this to the bin directory you want serve installed in
+BINDIR=/usr/bin
+#Set this to the directory you want serve_mimetypes installed in
+ETCDIR=/etc
+
+After configuring these options run "make".
+If all goes according to plan the serve binary should be available in src/serve.
+
+You can now run "make install" as root to install the server binary to
+$BINDIR/serve and the mimetypes file to /etc/serve_mimetypes.
+
+2. Testing
 ----------
 
 After you've compiled and installed serve, you are ready to run it. To test it
@@ -24,7 +40,7 @@ $ serve
 
 and go to http://localhost:8080/ in your browser to check that it's working.
 
-2. Running at boot
+3. Running at boot
 ------------------
 
 Once you're satisfied that serve itself is working, and if you want it to run
@@ -50,18 +66,17 @@ See the output of "serve -h" for more options.
 The script that kills serve at shutdown should do something like:
  kill `cat $PIDFILE`
 
-3. Mimetype configuration
+4. Mimetype configuration
 -------------------------
 
 Even if you compiled serve with libmagic enabled, you will still need a
 mimetypes file if you want serve to automatically find index pages. When looking
 for an index page, serve goes down the list of file extensions specified in
-$DOC_ROOT/.mimetypes, and then $SYSCONFDIR/serve_mimetypes (in that order),
+$DOC_ROOT/.mimetypes, and then /etc/serve_mimetypes (in that order),
 trying "index.EXT" where EXT is an extension loaded from those files. The first
 existing file that serve can open for reading is used.
 
-The default value of $SYSCONFDIR is "/usr/local/etc", and $DOC_ROOT is whatever
-directory serve was started from.
+$DOC_ROOT is whatever directory serve was started from.
 
 If you want to specify another mimetypes file to serve, in addition to the two
 mentioned above, you can give serve the -m option, like so:
@@ -75,7 +90,7 @@ than the earlier ones.
 Note that when you change a mimetypes file, you will need to restart serve if
 you want it to reload the file.
 
-4. Contact
+5. Contact
 ----------
 
 See the AUTHORS file for information on how to contact me.

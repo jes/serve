@@ -52,8 +52,8 @@
 #include <zlib.h>
 #endif
 
-#ifndef SYSCONFDIR
-#define SYSCONFDIR "/etc"
+#ifndef ETCDIR
+#define ETCDIR "/etc"
 #endif
 
 /* HTTP Server header */
