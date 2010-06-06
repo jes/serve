@@ -263,6 +263,8 @@ char *url_decode(char *buf) {
     }
   }
 
+  buf[i] = '\0';
+
   return buf;
 }
 
