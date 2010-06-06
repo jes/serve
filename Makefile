@@ -18,7 +18,7 @@ BINDIR=/usr/bin
 ETCDIR=/etc
 ################################################################################
 
-CFLAGS=-g -Wall -DETCDIR=$(ETCDIR)
+CFLAGS=-g -Wall -DETCDIR=\"$(ETCDIR)\"
 OBJS=src/auth.o src/cgi.o src/compression.o src/genpage.o src/handler.o \
 	src/headers.o src/images.o src/init.o src/log.o src/md5.o \
 	src/mimetypes.o src/nextline.o src/request.o src/send.o src/serve.o
