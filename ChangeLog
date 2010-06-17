@@ -1,6 +1,10 @@
 Changelog for serve
 -------------------
 
+serve/0.7.4:
+ - Now URL decodes properly
+ - Switched to a plain Makefile-based build because autotools has too much cruft
+
 serve/0.7.3:
  - Fixes to serve_mimetypes file
  - Directory listing now hides dotfiles, and also closes all the HTML tags
