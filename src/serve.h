@@ -28,11 +28,17 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
-#include <dirent.h>
 #include <stdarg.h>
 #include <ctype.h>
 #include <pwd.h>
 #include <grp.h>
+
+#ifdef __FreeBSD__
+#define __BSD_VISIBLE 1
+#include <sys/dirent.h>
+#else
+#include <dirent.h>
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
