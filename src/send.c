@@ -101,25 +101,20 @@ int send_file_to_socket(const char *filename, int fd, size_t len) {
 
   if((fildes = open(filename, O_RDONLY)) == -1) return -1;
 
+  /* Note the unterminated if statement in the preprocessor macro */
 #ifdef USE_SENDFILE
   /* we are using sendfile */
   if(sendfile(fd, fildes, NULL, len) == -1)
-    /* sendfile failed, fall back to manual sending */
+#endif
+    /* sendfile failed or isn't used, fall back to manual sending */
     do {
       while((len = read(fildes, buf, 1024)) > 0)
         send(fd, buf, len, 0);
     } while(len == -1 && errno == EINTR);
-#else
-  /* no sendfile; read to buffer, write to socket */
-  do {
-    while((len = read(fildes, buf, 1024)) > 0)
-      send(fd, buf, len, 0);
-  } while(len == -1 && errno == EINTR);
-#endif
-
-  return 0;
 
   close(fildes);
+
+  return 0;
 }
 
 /* Sends the builtin file to the client */
