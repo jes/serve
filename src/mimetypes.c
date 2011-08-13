@@ -171,7 +171,7 @@ char *magic_content_type(const char *file) {
 
   type = (char*)magic_file(cookie, file);
 
-  if(!type) type = "application/octet-strem";
+  if(!type) type = "application/octet-stream";
 
   return type;
 #endif
